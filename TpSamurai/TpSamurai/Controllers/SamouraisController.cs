@@ -69,12 +69,13 @@ namespace TpSamurai.Controllers
             Samourai samou = db.Samourais.Find(id);
             SAmouraiModelcs sm = new SAmouraiModelcs();
             sm.Armes = db.Armes.Select(x => new SelectListItem() { Text = x.Nom, Value = x.Id.ToString() }).ToList();
+            samou.Arme = db.Armes.FirstOrDefault(a => a.Id == sm.IdArme);
             sm.Samourai = samou;
-            if (sm.Armes != null)
-            {
-                //sm.IdArme = sm.Samourai.Arme.Id;
-                sm.Armes = db.Armes.Select(x => new SelectListItem() { Text = x.Nom, Value = x.Id.ToString() }).ToList();
-            }
+            //if (sm.Armes != null)
+            //{
+            //    //sm.IdArme = sm.Samourai.Arme.Id;
+            //    sm.Armes = db.Armes.Select(x => new SelectListItem() { Text = x.Nom, Value = x.Id.ToString() }).ToList();
+            //}
             //Samourai samourai = db.Samourais.Find(id);
             //if (samourai == null)
             //{
@@ -92,9 +93,11 @@ namespace TpSamurai.Controllers
         {
             if (ModelState.IsValid)
             {
-                Samourai samou = sm.Samourai;
-                samou.Arme = db.Armes.FirstOrDefault(a => a.Id == sm.IdArme);
-                db.Entry(samou).State = EntityState.Modified;
+                Samourai samour = db.Samourais.Find(sm.Samourai.Id);
+                samour.Nom = sm.Samourai.Nom;
+                samour.Force = sm.Samourai.Force;
+                samour.Arme = db.Armes.FirstOrDefault(a => a.Id == sm.IdArme);
+                //db.Entry(samou).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
