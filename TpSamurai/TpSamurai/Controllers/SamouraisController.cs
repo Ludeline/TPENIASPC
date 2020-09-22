@@ -54,12 +54,8 @@ namespace TpSamurai.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Pizza pizza = vm.Pizza;
-                //pizza.Pate = BDD.Instance.listePate.FirstOrDefault(p => p.Id == vm.IdPate);
                 Samourai samou = sm.Samourai;
                 samou.Arme = db.Armes.FirstOrDefault(a => a.Id == sm.IdArme);
-                //sm.Armes = db.Armes.FirstOrDefault(a => a.Id == sm.IdArme.Value);
-                //sm.Armes = db.Armes.Select(a => new SelectListItem { Text = a.Nom, Value = a.Id.ToString() }).ToList();
                 db.Samourais.Add(samou);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -70,16 +66,20 @@ namespace TpSamurai.Controllers
         // GET: Samourais/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            Samourai samou = db.Samourais.Find(id);
+            SAmouraiModelcs sm = new SAmouraiModelcs();
+            sm.Armes = db.Armes.Select(x => new SelectListItem() { Text = x.Nom, Value = x.Id.ToString() }).ToList();
+            sm.Samourai = samou;
+            if (sm.Armes != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                sm.IdArme = sm.Samourai.Arme.Id;
             }
-            Samourai samourai = db.Samourais.Find(id);
-            if (samourai == null)
-            {
-                return HttpNotFound();
-            }
-            return View(samourai);
+            //Samourai samourai = db.Samourais.Find(id);
+            //if (samourai == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            return View(sm);
         }
 
         // POST: Samourais/Edit/5
@@ -87,15 +87,17 @@ namespace TpSamurai.Controllers
         // plus de détails, consultez https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Force,Nom")] Samourai samourai)
+        public ActionResult Edit(SAmouraiModelcs sm)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(samourai).State = EntityState.Modified;
+                Samourai samou = sm.Samourai;
+                samou.Arme = db.Armes.FirstOrDefault(a => a.Id == sm.IdArme);
+                db.Entry(samou).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(samourai);
+            return View(sm);
         }
 
         // GET: Samourais/Delete/5
