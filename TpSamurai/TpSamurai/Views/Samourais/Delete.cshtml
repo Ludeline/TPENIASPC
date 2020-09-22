@@ -25,7 +25,16 @@
 
         <dd>
             @Html.DisplayFor(model => model.Nom)
-        </dd>
+        </dd>           
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Arme)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Arme.Nom)
+        </dd>        
+        
 
     </dl>
 
