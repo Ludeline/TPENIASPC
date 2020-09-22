@@ -72,7 +72,8 @@ namespace TpSamurai.Controllers
             sm.Samourai = samou;
             if (sm.Armes != null)
             {
-                sm.IdArme = sm.Samourai.Arme.Id;
+                //sm.IdArme = sm.Samourai.Arme.Id;
+                sm.Armes = db.Armes.Select(x => new SelectListItem() { Text = x.Nom, Value = x.Id.ToString() }).ToList();
             }
             //Samourai samourai = db.Samourais.Find(id);
             //if (samourai == null)
