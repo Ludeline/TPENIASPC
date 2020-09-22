@@ -1,7 +1,0 @@
-C:\Users\hocha\source\repos\MaPremiereApp\MaPremiereApp\bin\Debug\MaPremiereApp.exe.config
-C:\Users\hocha\source\repos\MaPremiereApp\MaPremiereApp\bin\Debug\MaPremiereApp.exe
-C:\Users\hocha\source\repos\MaPremiereApp\MaPremiereApp\bin\Debug\MaPremiereApp.pdb
-C:\Users\hocha\source\repos\MaPremiereApp\MaPremiereApp\obj\Debug\MaPremiereApp.csprojAssemblyReference.cache
-C:\Users\hocha\source\repos\MaPremiereApp\MaPremiereApp\obj\Debug\MaPremiereApp.csproj.CoreCompileInputs.cache
-C:\Users\hocha\source\repos\MaPremiereApp\MaPremiereApp\obj\Debug\MaPremiereApp.exe
-C:\Users\hocha\source\repos\MaPremiereApp\MaPremiereApp\obj\Debug\MaPremiereApp.pdb
