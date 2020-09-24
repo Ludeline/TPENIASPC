@@ -97,7 +97,14 @@ namespace TpSamouraiV2.Controllers
                 samourai.Nom = sm.Samourai.Nom;
                 samourai.Force = sm.Samourai.Force;
                 samourai.Arme = db.Armes.FirstOrDefault(a => a.Id == sm.IdArme);
-                samourai.ArtMartials = db.ArtMartials.Where(am => sm.IdsArtMartials.Contains(am.Id)).ToList();
+                //samourai.ArtMartials = db.ArtMartials.Where(am => sm.IdsArtMartials.Contains(am.Id)).ToList();
+
+                //Test
+                foreach (var item in samourai.ArtMartials)
+                {
+                    db.Entry(item).State = EntityState.Modified;
+                }
+                samourai.ArtMartials = db.ArtMartials.Where(x => sm.IdsArtMartials.Contains(x.Id)).ToList();
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
