@@ -88,3 +88,5 @@ C:\Users\hocha\source\repos\TpSamouraiV2\TpSamouraiV2\obj\Debug\TpSamouraiV2.csp
 C:\Users\hocha\source\repos\TpSamouraiV2\TpSamouraiV2\obj\Debug\TpSamouraiV2.dll
 C:\Users\hocha\source\repos\TpSamouraiV2\TpSamouraiV2\obj\Debug\TpSamouraiV2.pdb
 C:\Users\hocha\source\repos\TpSamouraiV2\TpSamouraiV2\obj\Debug\TpSamouraiV2.csprojAssemblyReference.cache
+C:\Users\hocha\source\repos\TpSamouraiV2\TpSamouraiV2\obj\Debug\TPModule6_2.Migrations.migration1.resources
+C:\Users\hocha\source\repos\TpSamouraiV2\TpSamouraiV2\obj\Debug\TpSamouraiV2.csproj.GenerateResource.cache

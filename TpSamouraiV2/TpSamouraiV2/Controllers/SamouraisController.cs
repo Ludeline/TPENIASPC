@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using TpSamouraiV2.Data;
 using TpSamouraiV2.Entities;
+using TpSamouraiV2.Models;
 
 namespace TpSamouraiV2.Controllers
 {
@@ -39,7 +40,10 @@ namespace TpSamouraiV2.Controllers
         // GET: Samourais/Create
         public ActionResult Create()
         {
-            return View();
+            SamouraiModel sm = new SamouraiModel();
+            sm.Armes = db.Armes.Select(x => new SelectListItem() { Text = x.Nom, Value = x.Id.ToString() }).ToList();
+            sm.ArtMartials = db.ArtMartials.Select(am => new SelectListItem() { Text = am.Nom, Value = am.Id.ToString() }).ToList();
+            return View(sm);
         }
 
         // POST: Samourais/Create
@@ -47,31 +51,37 @@ namespace TpSamouraiV2.Controllers
         // plus de détails, consultez https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Force,Nom")] Samourai samourai)
+        public ActionResult Create(SamouraiModel sm)
         {
             if (ModelState.IsValid)
             {
-                db.Samourais.Add(samourai);
+                Samourai samou = sm.Samourai;
+                samou.Arme = db.Armes.FirstOrDefault(a => a.Id == sm.IdArme);
+                samou.ArtMartials = db.ArtMartials.Where(am => sm.IdsArtMartials.Contains(am.Id)).ToList();
+                db.Samourais.Add(samou);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            return View(samourai);
+            return View(sm);
         }
 
         // GET: Samourais/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
             Samourai samourai = db.Samourais.Find(id);
-            if (samourai == null)
-            {
-                return HttpNotFound();
-            }
-            return View(samourai);
+            SamouraiModel sm = new SamouraiModel();
+            sm.Armes = db.Armes.Select(x => new SelectListItem() { Text = x.Nom, Value = x.Id.ToString() }).ToList();
+            sm.ArtMartials = db.ArtMartials.Select(am => new SelectListItem() { Text = am.Nom, Value = am.Id.ToString() }).ToList();
+            sm.Samourai = samourai;
+            //if (samourai == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            return View(sm);
         }
 
         // POST: Samourais/Edit/5
@@ -79,15 +89,19 @@ namespace TpSamouraiV2.Controllers
         // plus de détails, consultez https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Force,Nom")] Samourai samourai)
+        public ActionResult Edit(SamouraiModel sm)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(samourai).State = EntityState.Modified;
+                Samourai samourai = db.Samourais.Find(sm.Samourai.Id);
+                samourai.Nom = sm.Samourai.Nom;
+                samourai.Force = sm.Samourai.Force;
+                samourai.Arme = db.Armes.FirstOrDefault(a => a.Id == sm.IdArme);
+                samourai.ArtMartials = db.ArtMartials.Where(am => sm.IdsArtMartials.Contains(am.Id)).ToList();
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(samourai);
+            return View(sm);
         }
 
         // GET: Samourais/Delete/5
