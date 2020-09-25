@@ -7,5 +7,7 @@ namespace TpPizzaMonEssai.Entities
 {
     public class Ingredients
     {
+        public int Id { get; set; }
+        public string Nom { get; set; }
     }
 }
