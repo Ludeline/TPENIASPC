@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using TpPizzaMonEssai.Data;
 using TpPizzaMonEssai.Entities;
+using TpPizzaMonEssai.Models;
 
 namespace TpPizzaMonEssai.Controllers
 {
@@ -39,7 +40,10 @@ namespace TpPizzaMonEssai.Controllers
         // GET: Pizzas/Create
         public ActionResult Create()
         {
-            return View();
+            PizzaViewModel pvm = new PizzaViewModel();
+            pvm.Pates = db.Pates.Select(p => new SelectListItem() { Text = p.Nom, Value = p.Id.ToString() }).ToList();
+            pvm.Ingredients = db.Ingredients.Select(i => new SelectListItem() { Text = i.Nom, Value = i.Id.ToString() }).ToList();
+            return View(pvm);
         }
 
         // POST: Pizzas/Create
@@ -47,16 +51,19 @@ namespace TpPizzaMonEssai.Controllers
         // plus de détails, consultez https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nom")] Pizza pizza)
+        public ActionResult Create(PizzaViewModel pvm)
         {
             if (ModelState.IsValid)
             {
+                Pizza pizza = pvm.Pizza;
+                pizza.Pate = db.Pates.FirstOrDefault(p => p.Id == pvm.IdPate);
+                pizza.Ingredients = db.Ingredients.Where(i => pvm.IdsIngredients.Contains(i.Id)).ToList();
                 db.Pizzas.Add(pizza);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(pizza);
+            return View(pvm);
         }
 
         // GET: Pizzas/Edit/5

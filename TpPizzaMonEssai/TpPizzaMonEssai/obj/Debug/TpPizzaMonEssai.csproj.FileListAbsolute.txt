@@ -87,3 +87,4 @@ C:\Users\hocha\source\repos\TpPizzaMonEssai\TpPizzaMonEssai\obj\Debug\TpPizzaMon
 C:\Users\hocha\source\repos\TpPizzaMonEssai\TpPizzaMonEssai\obj\Debug\TpPizzaMonEssai.csproj.CopyComplete
 C:\Users\hocha\source\repos\TpPizzaMonEssai\TpPizzaMonEssai\obj\Debug\TpPizzaMonEssai.dll
 C:\Users\hocha\source\repos\TpPizzaMonEssai\TpPizzaMonEssai\obj\Debug\TpPizzaMonEssai.pdb
+C:\Users\hocha\source\repos\TpPizzaMonEssai\TpPizzaMonEssai\obj\Debug\TpPizzaMonEssai.csprojAssemblyReference.cache

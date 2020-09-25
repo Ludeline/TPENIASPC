@@ -13,7 +13,13 @@
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Nom)
-        </th>
+        </th>         
+        <th>
+            @Html.DisplayNameFor(model => model.Pate)
+        </th>         
+        <th>
+            @Html.DisplayNameFor(model => model.Ingredients)
+        </th>        
         <th></th>
     </tr>
 
@@ -21,6 +27,20 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Nom)
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.Pate.Nom)
+        </td>
+        <td>
+            @if (item.Ingredients.Count > 0)
+            {
+                int i = 0;
+                for (; i < item.Ingredients.Count - 1; i++)
+                {
+                    @Html.DisplayFor(modelItem => item.Ingredients.ElementAt(i).Nom)<br />
+                }
+                @Html.DisplayFor(modelItem => item.Ingredients.ElementAt(i).Nom)
+            }
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
