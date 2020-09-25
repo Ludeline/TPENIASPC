@@ -14,92 +14,115 @@ namespace TpPizzas.BO
         // GET: Pizza
         public ActionResult Index()
         {
-            return View(BDD.Instance.listePizzas);
+            return View(BDD.Instance.ListePizzas);
         }
 
-        // GET: Pizza/Details/5
+        //GET: Pizza/Details/5
         public ActionResult Details(int id)
         {
-            Pizza pizzas = BDD.Instance.listePizzas.FirstOrDefault(p => p.Id == id);
-            return View(pizzas);
+            PizzaViewModel pvm = new PizzaViewModel();
+            pvm.Pizza = BDD.Instance.ListePizzas.FirstOrDefault(x => x.Id == id);
+            return View(pvm);
         }
 
         // GET: Pizza/Create
         public ActionResult Create()
         {
             //On fait appel à PizzaViewModel
-            PizzaViewModel vm = new PizzaViewModel();
+            PizzaViewModel pvm = new PizzaViewModel();
 
-            vm.Pates = BDD.Instance.listePate.Select(p => new SelectListItem { Text = p.Nom, Value = p.Id.ToString() }).ToList();
+            pvm.Pates = BDD.Instance.ListePates.Select(x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() }).ToList();
 
-            vm.Ingredients = BDD.Instance.listeIngredients.Select(i => new SelectListItem { Text = i.Nom, Value = i.Id.ToString() }).ToList();
+            pvm.Ingredients = BDD.Instance.ListeIngredients.Select(x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() }).ToList();
 
-            return View(vm);
+            return View(pvm);
         }
 
         // POST: Pizza/Create
         [HttpPost]
-        public ActionResult Create(PizzaViewModel vm)
+        public ActionResult Create(PizzaViewModel pvm)
         {
             try
             {
-                Pizza pizza = vm.Pizza;
-                pizza.Pate = BDD.Instance.listePate.FirstOrDefault(p => p.Id == vm.IdPate);
+                if (ModelState.IsValid )
+                {
+                    Pizza pizza = pvm.Pizza;
 
-                pizza.Ingredients = BDD.Instance.listeIngredients.Where(i => vm.IdsIngredients.Contains(i.Id)).ToList();
+                    pizza.Pate = BDD.Instance.ListePates.FirstOrDefault(x => x.Id == pvm.IdPate);
 
-                pizza.Id = BDD.Instance.listePizzas.Count == 0 ? 1 : BDD.Instance.listePizzas.Max(p => p.Id) + 1;
+                    pizza.Ingredients = BDD.Instance.ListeIngredients.Where(x => pvm.IdsIngredients.Contains(x.Id)).ToList();
 
-                BDD.Instance.listePizzas.Add(pizza);
+                    pizza.Id = BDD.Instance.ListePizzas.Count == 0 ? 1 : BDD.Instance.ListePizzas.Max(x => x.Id) + 1;
 
-                return RedirectToAction("Index");
+                    BDD.Instance.ListePizzas.Add(pizza);
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    pvm.Pates = BDD.Instance.ListePates.Select(
+                        x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() })
+                        .ToList();
+
+                    pvm.Ingredients = BDD.Instance.ListeIngredients.Select(
+                        x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() })
+                        .ToList();
+
+                    return View(pvm);
+                }
             }
             catch
             {
-                vm.Pates = BDD.Instance.listePate.Select(p => new SelectListItem { Text = p.Nom, Value = p.Id.ToString() }).ToList();
+                pvm.Pates = BDD.Instance.ListePates.Select(
+                x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() })
+                .ToList();
 
-                vm.Ingredients = BDD.Instance.listeIngredients.Select(i => new SelectListItem { Text = i.Nom, Value = i.Id.ToString() }).ToList();
+                pvm.Ingredients = BDD.Instance.ListeIngredients.Select(
+                    x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() })
+                    .ToList();
 
-                return View(vm);
+                return View(pvm);
             }
         }
 
         // GET: Pizza/Edit/5
         public ActionResult Edit(int id)
         {
-            PizzaViewModel vm = new PizzaViewModel();
+            PizzaViewModel pvm = new PizzaViewModel();
 
-            vm.Pizza = BDD.Instance.listePizzas.FirstOrDefault(piz => piz.Id == id);
+            pvm.Pates = BDD.Instance.ListePates.Select(
+                x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() })
+                .ToList();
 
-            vm.Pates = BDD.Instance.listePate.Select(p => new SelectListItem { Text = p.Nom, Value = p.Id.ToString() }).ToList();
+            pvm.Ingredients = BDD.Instance.ListeIngredients.Select(
+                x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() })
+                .ToList();
 
-            vm.Ingredients = BDD.Instance.listeIngredients.Select(i => new SelectListItem { Text = i.Nom, Value = i.Id.ToString() }).ToList();
+            pvm.Pizza = BDD.Instance.ListePizzas.FirstOrDefault(x => x.Id == id);
 
-            //Bout de code du formateur
-            //Si pas ces vérifications ça me pète un nullPointer exception aussi
-
-            if (vm.Pizza.Pate != null)
+            if (pvm.Pizza.Pate != null)
             {
-                vm.IdPate = vm.Pizza.Pate.Id;
+                pvm.IdPate = pvm.Pizza.Pate.Id;
             }
 
-            if (vm.Pizza.Ingredients.Any())
+            if (pvm.Pizza.Ingredients.Any())
             {
-                vm.IdsIngredients = vm.Pizza.Ingredients.Select(x => x.Id).ToList();
+                pvm.IdsIngredients = pvm.Pizza.Ingredients.Select(x => x.Id).ToList();
             }
-            return View(vm);
+
+            return View(pvm);
         }
 
         // POST: Pizza/Edit/5
         [HttpPost]
-        public ActionResult Edit(PizzaViewModel vm)
+        public ActionResult Edit(PizzaViewModel pvm)
         {
             try
             {
-                Pizza pizz = BDD.Instance.listePizzas.FirstOrDefault(piz => piz.Id == vm.Pizza.Id);
-                pizz.Nom = vm.Pizza.Nom;
-                pizz.Pate = BDD.Instance.listePate.FirstOrDefault(pate => pate.Id == vm.IdPate);
-                pizz.Ingredients = BDD.Instance.listeIngredients.Where(i => vm.IdsIngredients.Contains(i.Id)).ToList();
+                Pizza pizza = BDD.Instance.ListePizzas.FirstOrDefault(x => x.Id == pvm.Pizza.Id);
+                pizza.Nom = pvm.Pizza.Nom;
+                pizza.Pate = BDD.Instance.ListePates.FirstOrDefault(x => x.Id == pvm.IdPate);
+                pizza.Ingredients = BDD.Instance.ListeIngredients.Where(x => pvm.IdsIngredients.Contains(x.Id)).ToList();
 
                 return RedirectToAction("Index");
             }
@@ -112,8 +135,9 @@ namespace TpPizzas.BO
         // GET: Pizza/Delete/5
         public ActionResult Delete(int id)
         {
-            Pizza pizzas = BDD.Instance.listePizzas.FirstOrDefault(p => p.Id == id);
-            return View(pizzas);
+            PizzaViewModel pvm = new PizzaViewModel();
+            pvm.Pizza = BDD.Instance.ListePizzas.FirstOrDefault(x => x.Id == id);
+            return View(pvm);
         }
 
         // POST: Pizza/Delete/5
@@ -122,8 +146,8 @@ namespace TpPizzas.BO
         {
             try
             {
-                Pizza pizzas = BDD.Instance.listePizzas.FirstOrDefault(p => p.Id == id);
-                BDD.Instance.listePizzas.Remove(pizzas);
+                Pizza pizza = BDD.Instance.ListePizzas.FirstOrDefault(x => x.Id == id);
+                BDD.Instance.ListePizzas.Remove(pizza);
 
                 return RedirectToAction("Index");
             }

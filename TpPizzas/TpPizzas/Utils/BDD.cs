@@ -14,29 +14,49 @@ namespace TpPizzas.Utils
 
         private BDD()
         {
-            this.listePizzas = new List<Pizza>();
-            this.GetListePizza();
-
-            this.listeIngredients = new List<Ingredient>();
-            this.GetListeIngredients();
-
-            this.listePate = new List<Pate>();
-            this.GetPate();
+            this.ListeIngredients = this.GetListeIngredients();
+            this.ListePates = this.GetPate();
+            this.ListePizzas = new List<Pizza>();
         }
 
-        public List<Pizza> listePizzas { get; private set; }
-        public List<Ingredient> listeIngredients { get; private set; }
-        public List<Pate> listePate { get; private set; }
-        public void GetListePizza()
+        private List<Ingredient> ingredients;
+
+        public List<Ingredient> ListeIngredients
         {
-            listePizzas.Add(new Pizza { Id = 1, Ingredients = Pizza.IngredientsDisponibles, Nom = "Calzonne", Pates = Pizza.PatesDisponibles });
-            listePizzas.Add(new Pizza { Id = 2, Ingredients = Pizza.IngredientsDisponibles, Nom = "Reine", Pates = Pizza.PatesDisponibles });
-            listePizzas.Add(new Pizza { Id = 3, Ingredients = Pizza.IngredientsDisponibles, Nom = "Végétarienne", Pates = Pizza.PatesDisponibles });
-            listePizzas.Add(new Pizza { Id = 4, Ingredients = Pizza.IngredientsDisponibles, Nom = "NoIdea", Pates = Pizza.PatesDisponibles });
+            get { return ingredients; }
+            private set { this.ingredients = value; }
         }
 
-        public void GetListeIngredients()
+        private List<Pate> pates;
+
+        public List<Pate> ListePates
         {
+            get { return pates; }
+            private set { this.pates = value; }
+        }
+
+        private List<Pizza> pizzas;
+
+        public List<Pizza> ListePizzas
+        {
+            get { return pizzas; }
+            private set { pizzas = value; }
+        }
+        //public List<Pizza> GetListePizza()
+        //{
+        //    List<Pizza> listepizza = new List<Pizza>();
+
+        //    listepizza.Add(new Pizza { Id = 1, Ingredients = Pizza.IngredientsDisponibles, Nom = "Calzonne", Pate = Pizza.PatesDisponibles.Contains(i => i.Id).ToList());
+        //    listepizza.Add(new Pizza { Id = 2, Ingredients = Pizza.IngredientsDisponibles, Nom = "Reine", Pate = Pizza.PatesDisponibles });
+        //    listepizza.Add(new Pizza { Id = 3, Ingredients = Pizza.IngredientsDisponibles, Nom = "Végétarienne", Pate = Pizza.PatesDisponibles });
+        //    listepizza.Add(new Pizza { Id = 4, Ingredients = Pizza.IngredientsDisponibles, Nom = "NoIdea", Pate = Pizza.PatesDisponibles });
+
+        //    return listepizza;
+        //}
+
+        public List<Ingredient> GetListeIngredients()
+        {
+            List<Ingredient> listeIngredients = new List<Ingredient>();
 
             listeIngredients.Add(new Ingredient { Id = 1, Nom = "Mozzarella" });
             listeIngredients.Add(new Ingredient { Id = 2, Nom = "Jambon" });
@@ -46,15 +66,20 @@ namespace TpPizzas.Utils
             listeIngredients.Add(new Ingredient { Id = 6, Nom = "Saumon" });
             listeIngredients.Add(new Ingredient { Id = 7, Nom = "Champignon" });
             listeIngredients.Add(new Ingredient { Id = 8, Nom = "Poulet" });
+
+            return listeIngredients;
         }
 
-        public void GetPate()
+        public List<Pate> GetPate()
         {
+            List<Pate> listePates = new List<Pate>();
 
-            listePate.Add(new Pate { Id = 1, Nom = "Pate fine, base crême" });
-            listePate.Add(new Pate { Id = 2, Nom = "Pate fine, base tomate" });
-            listePate.Add(new Pate { Id = 3, Nom = "Pate épaisse, base crême" });
-            listePate.Add(new Pate { Id = 4, Nom = "Pate épaisse, base tomate" });
+            listePates.Add(new Pate { Id = 1, Nom = "Pate fine, base crême" });
+            listePates.Add(new Pate { Id = 2, Nom = "Pate fine, base tomate" });
+            listePates.Add(new Pate { Id = 3, Nom = "Pate épaisse, base crême" });
+            listePates.Add(new Pate { Id = 4, Nom = "Pate épaisse, base tomate" });
+
+            return listePates;
         }
     }
 }

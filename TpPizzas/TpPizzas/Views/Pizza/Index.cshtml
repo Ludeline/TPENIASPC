@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.Nom)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Pates)
+            @Html.DisplayNameFor(model => model.Pate)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Ingredients)
@@ -25,28 +25,31 @@
 
     @foreach (var item in Model)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Nom)
-    </td>
-    <td>
-            @foreach (var pates in item.Pates)
-            {
-                @Html.DisplayFor(m => pates.Nom)<br />
-            }
-    </td>
-    <td>
-            @foreach (var ingredient in item.Ingredients)
-            {
-                @Html.DisplayFor(m => ingredient.Nom)<br />
-            }
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-    </td>
-</tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom)
+            </td>
+            <td>
+                @if (item.Pate != null)
+                {
+                    @Html.DisplayFor(modelItem => item.Pate.Nom)
+                }
+            </td>
+            <td>
+                @if (item.Ingredients != null)
+                {
+                    foreach (var ingredient in item.Ingredients)
+                    {
+                        @Html.DisplayFor(i => ingredient.Nom)<br>
+                    }
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary" }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-primary" })
+            </td>
+        </tr>
     }
 
 </table>
